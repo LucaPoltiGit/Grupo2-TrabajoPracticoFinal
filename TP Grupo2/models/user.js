@@ -21,6 +21,7 @@ User.init({
   points: {
     type: DataTypes.INTEGER, // Use INTEGER instead of NUMBER
     allowNull: false,
+    defaultValue: 0
   }
 }, {
   sequelize: dbConnection,
