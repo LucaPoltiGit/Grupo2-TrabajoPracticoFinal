@@ -49,4 +49,23 @@ router.post("/", async (req, res) => {
     }
 })
 
+
+router.delete("/:uid", async (req, res)  => {
+    try {
+        const { uid } = req.params
+
+        const user = await userController.getById(uid)
+
+        if(!user) {
+            return res.status(404).json({status: "Error", msg: `Usuario ${uid} no se encontro`})
+        }
+
+        await userController.deleteOne(user.id)
+
+        res.status(201).json({status: "success", message: `El usuario ${uid}, se elimino correctamente`});
+    } catch (error) {
+        res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
+        console.log(error.message);
+    }
+})
 export default router

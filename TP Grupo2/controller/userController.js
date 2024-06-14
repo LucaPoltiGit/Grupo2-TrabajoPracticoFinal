@@ -6,7 +6,7 @@ const getAll = async () => {
 }
 
 const getById = async (id) => {
-    const userEncontrado = await User.findById(id)
+    const userEncontrado = await User.findByPk(id)
     return userEncontrado
 }
 
@@ -15,9 +15,21 @@ const create = async (userData) =>{
     return user
 }
 
+const deleteOne = async (id) =>{
+    const deletedRowCount = await User.destroy({
+        where: {
+          id: id
+        }
+      });
+
+      if(deletedRowCount === 0) return false
+      return true;
+}
+
 
 export default {
     getAll,
     getById,
     create,
+    deleteOne,
 }
