@@ -1,26 +1,46 @@
 import express from "express";
 import router from "./routes/index.js";
-// import morgan from "morgan";
-// import cookieParser from "cookie-parser"
+import { createServer } from "http";
+import { Server } from "socket.io";
 import dbConnection from "./dbConnection/dbConnection.js";
-// import {SERVER_PORT} from "./config/config.js"
+// import morgan from "morgan";
+// import cookieParser from "cookie-parser";
+// import { SERVER_PORT } from "./config/config.js";
+
 const app = express();
 
 // app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser())
+// app.use(cookieParser());
 
+app.use(express.static('public'));
 
-app.use("/api", router)
+const server = createServer(app);
+
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+  console.log('Un usuario se ha conectado');
+
+  socket.on('disconnect', () => {
+    console.log('Un usuario se ha desconectado');
+  });
+
+  socket.on('mensaje', (msg) => {
+    console.log('Mensaje recibido: ' + msg);
+    io.emit('mensaje', msg);
+  });
+});
+
+app.use("/api", router);
 
 app.use((req, res, next) => {
-  res.status(404).send({ success: false, message: "not found" });
+  res.status(404).send({ success: false, message: "Ruta no encontrada" });
 });
 
-await dbConnection.sync({force:false})
+await dbConnection.sync({ force: false });
 
-app.listen(8080, () => {
-  console.log("Escuchando el servidor 8080"); 
+server.listen(8080, () => {
+  console.log("Escuchando el servidor 8080");
 });
-

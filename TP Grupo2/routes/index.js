@@ -6,4 +6,8 @@ const router = Router();
 
 router.use("/users", usersRouters);
 
+router.get('/', (req, res) => {
+    res.send("Bienvenido")
+  });
+
 export default router;
