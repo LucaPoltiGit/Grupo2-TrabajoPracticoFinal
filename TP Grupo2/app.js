@@ -20,12 +20,24 @@ const server = createServer(app);
 
 const io = new Server(server);
 
+const rooms = {
+  // "xxx1"
+  // "yyy2"
+  // "zzz3"
+}
+
 io.on('connection', (socket) => {
   console.log('Un usuario se ha conectado');
 
   socket.on('disconnect', () => {
     console.log('Un usuario se ha desconectado');
   });
+
+rooms.forEach(room => {
+  socket.on(`playroom: ${room}`, (msg) =>{
+
+    io.emit(`playroom: ${room}`, msg)})
+  })
 
   socket.on('mensaje', (msg) => {
     console.log('Mensaje recibido: ' + msg);
