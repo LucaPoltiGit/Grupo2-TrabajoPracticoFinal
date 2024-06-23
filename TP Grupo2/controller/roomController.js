@@ -11,7 +11,7 @@ const getById = async (id) => {
 }
 
 const create = async () =>{
-    const room = await Room.create()
+    const room = await Room.add()
     return room
 }
 
@@ -26,10 +26,28 @@ const deleteOne = async (id) =>{
       return true;
 }
 
+const addUser = async(user_id, room_id)=>{
+    const user = await Room.create({user_id,room_id});
+    return user;
+ }
+ 
+ const getCurrentPlayers = async(room_id)=>{
+     const currentPlayers = await Room.count({ where: { room_id } });
+     return currentPlayers;
+ }
+ 
+ const userExist = async(user_id, room_id)=>{
+     const userExists = await Room.findOne({where: {user_id,room_id}})
+     return userExists;
+ }
+ 
 
 export default {
     getAll,
     getById,
     create,
     deleteOne,
+    addUser,
+    getCurrentPlayers,
+    userExist
 }
