@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
-import dbConnection from "../dbConnection/dbConnection.js"; // Ajusta la ruta según tu estructura de archivos
-import User from './user.js'; // Ajusta la ruta según tu estructura de archivos
+import dbConnection from "../dbConnection/dbConnection.js";
+import User from './user.js'; 
 
 class Room extends Model {}
 
@@ -10,12 +10,11 @@ Room.init({
         primaryKey: true,
         autoIncrement: true
     },
-    // Otros campos de la sala, según sea necesario
-}, {
+
     sequelize: dbConnection,
     modelName: 'Room',
-    tableName: 'rooms', // Nombre de la tabla en la base de datos
-    timestamps: false // No necesitamos timestamps en este modelo
+    tableName: 'rooms', 
+    timestamps: false 
 });
 
 // Definición de la asociación muchos a muchos con User
