@@ -53,6 +53,7 @@ app.use((req, res, next) => {
 
 await dbConnection.sync({ force: false });
 
+
 server.listen(8080, () => {
   console.log("Escuchando el servidor 8080");
 });

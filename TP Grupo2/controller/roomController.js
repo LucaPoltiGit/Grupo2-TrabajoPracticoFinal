@@ -1,4 +1,4 @@
-import Room from '../models/room.js';
+import {Room,User } from '../models/models.js';
 
 const getAll = async () => {
     const rooms = await Room.findAll()
@@ -11,7 +11,7 @@ const getById = async (id) => {
 }
 
 const create = async () =>{
-    const room = await Room.add()
+    const room = await Room.create()
     return room
 }
 
@@ -26,18 +26,18 @@ const deleteOne = async (id) =>{
       return true;
 }
 
-const addUser = async(user_id, room_id)=>{
-    const user = await Room.create({user_id,room_id});
-    return user;
+const addUser = async(user, room_id)=>{
+    const userUpdate = await user.update({RoomRoomId: room_id})
+    return userUpdate;
  }
  
  const getCurrentPlayers = async(room_id)=>{
-     const currentPlayers = await Room.count({ where: { room_id } });
+     const currentPlayers = await User.count({ where: { RoomRoomId: room_id } });
      return currentPlayers;
  }
  
  const userExist = async(user_id, room_id)=>{
-     const userExists = await Room.findOne({where: {user_id,room_id}})
+     const userExists = await User.findOne({where: {id: user_id,RoomRoomId: room_id}})
      return userExists;
  }
  
