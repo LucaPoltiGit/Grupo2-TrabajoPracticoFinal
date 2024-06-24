@@ -25,7 +25,7 @@ router.get("/:rid", async (req, res) => {
         const room = await roomController.getById(rid)
 
         if(!room) {
-            return res.status(404).json({status: "Error", msg: `Usuario ${uid} no se encontro`})
+            return res.status(404).json({status: "Error", msg: `La sala ${uid} no se encontro`})
         }
 
         res.status(201).json({status: "success", payload: room});
@@ -57,13 +57,14 @@ router.delete("/:rid", async (req, res)  => {
 
         const room = await roomController.getById(rid)
 
+
         if(!room) {
-            return res.status(404).json({status: "Error", msg: `Usuario ${rid} no se encontro`})
+            return res.status(404).json({status: "Error", msg: `Sala ${rid} no se encontro`})
         }
 
-        await roomController.deleteOne(room.id)
+        await roomController.deleteOne(rid)
 
-        res.status(201).json({status: "success", message: `El usuario ${rid}, se elimino correctamente`});
+        res.status(201).json({status: "success", message: `La sala ${rid} se elimino correctamente`});
     } catch (error) {
         res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
         console.log(error.message);
