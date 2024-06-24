@@ -1,7 +1,7 @@
 import express from "express";
 import router from "./routes/index.js";
 import { createServer } from "http";
-// import { Server } from "socket.io";
+import { Server } from "socket.io";
 import dbConnection from "./dbConnection/dbConnection.js";
 // import morgan from "morgan";
 // import cookieParser from "cookie-parser";
@@ -52,6 +52,7 @@ app.use((req, res, next) => {
 });
 
 await dbConnection.sync({ force: false });
+
 
 server.listen(8080, () => {
   console.log("Escuchando el servidor 8080");

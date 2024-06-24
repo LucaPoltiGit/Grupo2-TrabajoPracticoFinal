@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import dbConnection from '../dbConnection/dbConnection.js'; // Asegúrate de importar tu conexión Sequelize correctamente
+import dbConnection from "../dbConnection/dbConnection.js";
 
 class Room extends Model {}
 
@@ -9,9 +9,13 @@ Room.init({
         primaryKey: true,
         autoIncrement: true
     }
-}, {
+},
+{
     sequelize: dbConnection,
-    modelName: 'Room'
-});
-  
+    modelName: 'Room',
+    tableName: 'rooms', 
+    timestamps: false 
+}
+);
+
 export default Room;
