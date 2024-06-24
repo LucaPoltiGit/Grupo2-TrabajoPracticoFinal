@@ -4,9 +4,6 @@ import roomsRouters from "../routes/rooms.routes.js"
 import authRouters from "../routes/auth.routes.js"
 import { validateLogin } from "../middlewares/validateLogin.js";
 
-
-// import { isLogin } from "../middleware/isLogin.middleware.js";
-
 const router = Router();
 
 router.use("/auth", authRouters);

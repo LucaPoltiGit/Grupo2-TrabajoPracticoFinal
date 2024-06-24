@@ -1,4 +1,3 @@
-// utils/jwt.js
 import jwt from "jsonwebtoken";
 import { SECRET } from "../config/config.js";
 

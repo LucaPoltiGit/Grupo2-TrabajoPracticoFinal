@@ -33,7 +33,10 @@ router.post("/login", async (req, res) => {
         return res.status(404).json({ status: "Error", msg: "El usuario o contraseña es incorrecto" });
       }
   
-      const payload = { id: user.id, name: user.name };
+      const payload = {
+          id: user.id,
+          name: user.name 
+        };
       const token = generateToken(payload);
   
       res.cookie("token", token, { httpOnly: true });
