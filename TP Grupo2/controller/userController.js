@@ -10,6 +10,11 @@ const getById = async (id) => {
     return userEncontrado
 }
 
+const getByEmail = async (email) => {
+    const userEncontrado = await User.findOne({where: {email}})
+    return userEncontrado
+}
+
 const create = async (userData) =>{
     const user = await User.create(userData)
     return user
@@ -26,10 +31,22 @@ const deleteOne = async (id) =>{
       return true;
 }
 
+const update = async (name, email, id) =>{
+    const userModificado = await User.update({name, email}, {where: {id}})
+    return userModificado
+}
+
+const modifyPoints = async (id, points) =>{
+    const puntajeFinal = await User.update({points}, {where: {id} }) 
+    return puntajeFinal
+}
 
 export default {
     getAll,
     getById,
     create,
     deleteOne,
+    getByEmail,
+    update,
+    modifyPoints,
 }
