@@ -36,8 +36,7 @@ User.init({
 
 User.beforeCreate(async (user, options) => {
   const salt = await bcrypt.genSalt();
-  const hashedPassword = bcrypt.hash(user.password, salt);
-  user.password = hashedPassword;
+   user.password = await bcrypt.hash(user.password, salt);
 });
 
 

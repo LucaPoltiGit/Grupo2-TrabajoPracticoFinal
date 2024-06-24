@@ -1,13 +1,16 @@
+// utils/jwt.js
 import jwt from "jsonwebtoken";
 import { SECRET } from "../config/config.js";
 
-
 export const generateToken = (payload) => {
-  const token = jwt.sign({ payload }, SECRET, { expiresIn: "1d" });
-  return token;
+  return jwt.sign({ payload }, SECRET, { expiresIn: "5m" });
 };
 
 export const validateToken = (token) => {
-  const verifyToken = jwt.verify(token, SECRET);
-  return verifyToken;
+  try {
+    const decoded = jwt.verify(token, SECRET);
+    return decoded;
+  } catch (error) {
+    throw new Error("Token inválido o expirado");
+  }
 };
