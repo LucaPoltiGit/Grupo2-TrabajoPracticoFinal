@@ -44,4 +44,15 @@ router.post("/login", async (req, res) => {
     }
   });
 
+  router.post("/logout", (req, res) => {
+    try {
+      res.clearCookie("token");
+      res.status(200).json({ status: "success", message: "Sesión cerrada exitosamente" });
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error.message);
+      res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
+    }
+  });
+  
+
 export default router
