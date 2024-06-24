@@ -52,18 +52,21 @@ router.post("/", async (req, res) => {
 
 router.put("/:uid", async (req, res) => {
     try {
-        const {id} = req.params
+        const {uid} = req.params
+        
         const {name, email} = req.body
 
-        const user = await userController.getById(id)
+        const user = await userController.getById(uid)
 
         if(!user) {
-            return res.status(404).json({status: "Error", msg: `Usuario con el id ${id} no se encontro`})
+            return res.status(404).json({status: "Error", msg: `Usuario con el id ${uid} no se encontro`})
         }
 
-        const userModificado = await userController.update(name, email, id)
+        const userModificado = await userController.update(name, email, uid)
 
-        res.status(200).json({status: "success", message: `El usuario con el id ${id}, fue modificado correctamente`, payload: userModificado});
+        const userUpdated = await userController.getById(uid)
+
+        res.status(200).json({status: "success", message: `El usuario con el id ${uid}, fue modificado correctamente`, payload: userUpdated});
 
     } catch (error) {
         res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
@@ -73,18 +76,20 @@ router.put("/:uid", async (req, res) => {
 
 router.put("/agregarPuntaje/:uid", async (req, res) => {
     try {
-        const {id} = req.params
+        const {uid} = req.params
         const {points} = req.body
 
-        const user = await userController.getById(id)
+        const user = await userController.getById(uid)
 
         if(!user) {
-            return res.status(404).json({status: "Error", msg: `Usuario con el id ${id} no se encontro`})
+            return res.status(404).json({status: "Error", msg: `Usuario con el id ${uid} no se encontro`})
         }
 
-        const puntajeFinal = await userController.modifyPoints(id,points)
+        const puntajeFinal = await userController.modifyPoints(uid,points)
 
-        res.status(200).json({status: "success", message: `El usuario con el id ${id}, tiene: ${points} puntos`});
+        const puntaje = await userController.getById(uid)
+
+        res.status(200).json({status: "success", message: `El usuario con el id ${uid}, tiene: ${puntaje.points} puntos`});
 
     } catch (error) {
         res.status(500).json({ status: "Error", msg: "Error interno del servidor" });

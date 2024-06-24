@@ -11,7 +11,7 @@ const getById = async (id) => {
 }
 
 const getByEmail = async (email) => {
-    const userEncontrado = await User.findOne({where: {email}})
+    const userEncontrado = await User.findOne({where: {email: email}})
     return userEncontrado
 }
 

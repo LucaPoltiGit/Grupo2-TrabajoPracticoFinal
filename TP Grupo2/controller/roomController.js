@@ -16,18 +16,14 @@ const create = async () =>{
 }
 
 const deleteOne = async (id) =>{
-    const deletedRowCount = await Room.destroy({
-        where: {
-          id: id
-        }
-      });
+    const deletedRowCount = await Room.destroy({ where: { room_id: id } });
 
       if(deletedRowCount === 0) return false
       return true;
 }
 
 const addUser = async(user, room_id)=>{
-    const userUpdate = await user.update({RoomRoomId: room_id})
+    const userUpdate = await user.update({ where: { RoomRoomId: room_id } })
     return userUpdate;
  }
  
