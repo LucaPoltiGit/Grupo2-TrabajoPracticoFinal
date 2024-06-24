@@ -40,5 +40,4 @@ User.beforeCreate(async (user, options) => {
 });
 
 
-
 export default User;
