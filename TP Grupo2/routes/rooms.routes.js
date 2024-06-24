@@ -76,7 +76,7 @@ router.post('/agregarJugador', async(req, res) => {
        
 
         const user = await userController.getById(user_id);
-        console.log(user)
+
         if(!user){
          return res.status(404).json({status: 'Error', msg: `No se encontro el user con el id: ${user_id}`})
         }

@@ -25,7 +25,7 @@ User.init({
     allowNull: false
   },
   points: {
-    type: DataTypes.INTEGER, // Use INTEGER instead of NUMBER
+    type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: 0
   }
