@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
 
         const users = await userController.getAll()
 
-        res.status(201).json({status: "success", payload: users});
+        res.status(200).json({status: "success",  payload:users});
 
     } catch (error) {
         res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
@@ -27,7 +27,7 @@ router.get("/:uid", async (req, res) => {
             return res.status(404).json({status: "Error", msg: `Usuario ${uid} no se encontro`})
         }
 
-        res.status(201).json({status: "success", payload: user});
+        res.status(200).json({status: "success", payload: user});
 
     } catch (error) {
         res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
