@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
       const token = generateToken(payload);
   
       res.cookie("token", token, { httpOnly: true });
-      res.status(200).json({ status: "success", message: "Usuario logueado correctamente" });
+      res.status(200).json({ status: "succes", message: "Usuario logueado correctamenteeeeeee", payload});
     } catch (error) {
       console.error('Error in login route:', error.message);
       res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
