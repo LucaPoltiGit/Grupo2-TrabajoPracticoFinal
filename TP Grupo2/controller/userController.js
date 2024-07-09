@@ -36,8 +36,10 @@ const update = async (name, email, id) =>{
     return userModificado
 }
 
-const modifyPoints = async (id, points) =>{
-    const puntajeFinal = await User.update({points}, {where: {id} }) 
+const modifyPoints = async (user, points) =>{
+    const id = user.id
+    const puntajeGanado = user.points + points
+    const puntajeFinal = await User.update({points: puntajeGanado}, {where: {id} }) 
     return puntajeFinal
 }
 
