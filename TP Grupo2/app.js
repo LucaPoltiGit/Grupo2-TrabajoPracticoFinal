@@ -3,70 +3,79 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import dbConnection from "./dbConnection/dbConnection.js";
 import cookieParser from "cookie-parser";
-import router from './routes/index.js'
+import router from "./routes/index.js";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use("/api", router)
-app.use(express.static('public'));
+app.use("/api", router);
+app.use(express.static("public"));
 
 const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
     origin: "*", // Permitir cualquier origen para desarrollo
-    methods: ["GET", "POST"]
-  }
+    methods: ["GET", "POST"],
+  },
 });
 
-app.get('/', (req, res) => {
-  res.send('Servidor corriendo correctamente');
+app.get("/", (req, res) => {
+  res.send("Servidor corriendo correctamente");
 });
 
 const players = {}; // Un objeto para almacenar los jugadores en cada sala
 
-io.on('connection', (socket) => {
-  console.log('Nuevo cliente conectado');
+io.on("connection", (socket) => {
+  console.log("Nuevo cliente conectado");
 
-  socket.on('actualizarSalas', (data)=>{
-    io.emit('actualizarSalas', data)
-    console.log("data: ",data)
-  })
+  socket.on("actualizarSalas", (data) => {
+    io.emit("actualizarSalas", data);
 
-  socket.on('joinRoom', ({ roomId, authData }) => {
+    console.log("data: ", data);
+  });
+
+
+  socket.on("joinRoom", ({ roomId, authData }) => {
     socket.join(roomId);
     console.log(`Socket ${socket.id} joined room ${roomId}`);
 
-
-    
     // Verifica si ya hay un jugador en la sala
     if (!players[roomId]) {
       players[roomId] = { jugador1: authData, jugador2: null };
-      io.to(roomId).emit('playerJoined', { jugador1: authData });
+      io.to(roomId).emit("playerJoined", { jugador1: authData });
     } else if (!players[roomId].jugador2) {
       players[roomId].jugador2 = authData;
-      io.to(roomId).emit('playerJoined', { jugador1: players[roomId].jugador1, jugador2: authData });
+      io.to(roomId).emit("playerJoined", {
+        jugador1: players[roomId].jugador1,
+        jugador2: authData,
+      });
     } else {
       // La sala está llena
-      socket.emit('roomFull', 'La sala está llena');
+      socket.emit("roomFull", "La sala está llena");
     }
   });
 
-  socket.on('movimiento', ({ roomId, updatedBoard, nextPlayer }) => {
-    io.to(roomId).emit('movimiento', ({ updatedBoard, nextPlayer }));
+  socket.on("movimiento", ({ roomId, updatedBoard, nextPlayer }) => {
+    io.to(roomId).emit("movimiento", { updatedBoard, nextPlayer });
   });
 
   // Maneja la desconexión
-  socket.on('disconnect', () => {
-    console.log('Cliente desconectado');
+  socket.on("disconnect", () => {
+    console.log("Cliente desconectado");
     // Elimina al jugador de la sala
     for (const roomId in players) {
-      if (players[roomId].jugador1 && players[roomId].jugador1.id === socket.id) {
+      if (
+        players[roomId].jugador1 &&
+        players[roomId].jugador1.id === socket.id
+      ) {
         players[roomId].jugador1 = null;
-      } else if (players[roomId].jugador2 && players[roomId].jugador2.id === socket.id) {
+      } else if (
+        players[roomId].jugador2 &&
+        players[roomId].jugador2.id === socket.id
+      ) {
         players[roomId].jugador2 = null;
       }
     }
@@ -95,8 +104,6 @@ io.on('connection', (socket) => {
 //   //  }
 //   });
 
- 
-
 //   socket.on('movimiento',({roomId, updatedBoard, nextPlayer})=>{
 //     io.to(roomId).emit('movimiento', ({updatedBoard, nextPlayer}))
 
@@ -115,9 +122,6 @@ io.on('connection', (socket) => {
 //     console.log("roomId: ", roomParamsId)
 //   })
 
-
-
-
 //   // Evento para salir de una sala
 //   socket.on('leaveRoom', () => {
 //     const roomName = players[socket.id];
@@ -127,7 +131,6 @@ io.on('connection', (socket) => {
 //       io.to(roomName).emit('playerLeft', socket.id);
 //     }
 //   });
-
 
 // });
 
