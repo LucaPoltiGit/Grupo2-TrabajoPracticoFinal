@@ -43,7 +43,8 @@ router.post("/", async (req, res) => {
 
         const newroom = await roomController.create()
 
-        res.status(201).json({status: "success", newroom});
+        res.status(201).json({status: "success", newroom, id:newroom.dataValues.room_id });
+        console.log(newroom.dataValues.room_id)
     } catch (error) {
         res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
         console.log(error.message);
